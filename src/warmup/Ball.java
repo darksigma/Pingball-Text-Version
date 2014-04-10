@@ -25,33 +25,26 @@ public class Ball implements BoardItem {
 		pos = pos.plus(vel.times(timeStep));
 		
 		if (pos.x() >= board.getXMax()){
-			System.out.println("BOUNCE!");
-
 			vel = new Vect(-vel.x(), vel.y());
 			pos = new Vect(2*board.getXMax()-pos.x(), pos.y());
 		}
 		
 		if(pos.x() <= 0){
-			System.out.println("BOUNCE!");
 			vel = new Vect(-vel.x(), vel.y());
 			pos = new Vect(-pos.x(), pos.y());
 		}
 		
 		if (pos.y() >= board.getYMax()){
-			System.out.println("BOUNCE!");
 			vel = new Vect(vel.x(), -vel.y());
 			pos = new Vect(pos.x(), 2*board.getYMax()-pos.y());
 
 		}
 		
 		if(pos.y() <= 0){
-			System.out.println("BOUNCE!");
 			vel = new Vect(vel.x(), -vel.y());
 			pos = new Vect(pos.x(), -pos.y());
 		}
 		
-		System.out.println(getY());
-		System.out.println(getX());
 	}
 	
 	public char charRep(){
