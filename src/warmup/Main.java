@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         
     	final Board testBoard = new Board(20, 20);
-    	Ball testBall = new Ball(testBoard, 0, 6, 10, 20);
+    	Ball testBall = new Ball(testBoard, 0, 6, 10, 20+);
     	
     	testBoard.addToBoard(testBall);
     	
