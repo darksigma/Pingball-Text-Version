@@ -36,15 +36,14 @@ public class Ball implements BoardObject{
 	private final double mass;
 	
 	/**
-	 * The board that this ball currently inhabits
-	 */
-		
-	private Board board;
+     * The unique identifier of this ball
+     */
+    protected final String id;
 	
-	public Ball(Board board, double x, double y, double xVel, double yVel, double radius, double mass){
+	public Ball(String id, double x, double y, double xVel, double yVel, double radius, double mass){
+		this.id = id;
 		this.pos = new Vect(x, y);
 		this.vel = new Vect(xVel, yVel);
-		this.board = board;
 		this.radius = radius;
 		this.mass = mass;
 	}
@@ -91,6 +90,17 @@ public class Ball implements BoardObject{
 	public void setVel(Vect vector){
 		// TODO Auto-generated method stub
 	}
+	
+	/**
+	 * Changes the position of the ball
+	 * 
+	 * @param pos
+	 * 			the pos representing the new position of the ball
+	 */
+	public void setPos(Vect pos){
+		// TODO Auto-generated method stub
+	}
+
 	
 	/**
 	 * Create a circle representing the ball at its given position

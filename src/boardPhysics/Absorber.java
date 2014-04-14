@@ -2,6 +2,7 @@ package boardPhysics;
 
 import java.util.List;
 
+import physics.LineSegment;
 import physics.Vect;
 
 public class Absorber implements Gadget, BoardObject {
@@ -40,7 +41,21 @@ public class Absorber implements Gadget, BoardObject {
      * The reflection coefficient for this gadget
      */
     protected final double reflecCoeff;
+    
+    /**
+     * List of line segments representing the absorber
+     */
+    protected final List<LineSegment> absorber;
 	
+    public Absorber(String id, int x, int y, int width, int height){
+		this.xCoord = x;
+		this.yCoord = y;
+		this.width = width;
+		this.height = height;
+		this.id = id;
+		this.reflecCoeff = 0;
+	}
+    
 	@Override
 	public boolean connect(Gadget g) {
 		// TODO Auto-generated method stub

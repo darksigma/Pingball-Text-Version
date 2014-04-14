@@ -2,6 +2,7 @@ package boardPhysics;
 
 import java.util.List;
 
+import physics.Circle;
 import physics.Vect;
 
 public class Flipper implements Gadget, BoardObject {
@@ -40,6 +41,20 @@ public class Flipper implements Gadget, BoardObject {
      * The reflection coefficient for this gadget
      */
     protected final double reflecCoeff;
+    
+    /**
+     * The line segment representing the flipper
+     */
+    protected final LineSegment flipper;
+    
+    public Flipper(String id, int x, int y){
+		this.xCoord = x;
+		this.yCoord = y;
+		this.width = 2;
+		this.height = 2;
+		this.id = id;
+		this.reflecCoeff = 0.95;
+	}
 	
 	@Override
 	public boolean connect(Gadget g) {

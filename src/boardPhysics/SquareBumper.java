@@ -2,6 +2,7 @@ package boardPhysics;
 
 import java.util.List;
 
+import physics.LineSegment;
 import physics.Vect;
 
 public class SquareBumper implements Gadget, BoardObject {
@@ -40,6 +41,20 @@ public class SquareBumper implements Gadget, BoardObject {
      * The reflection coefficient for this gadget
      */
     protected final double reflecCoeff;
+    
+    /**
+     * List of line segments representing the square bumper
+     */
+    protected final List<LineSegment> squareSides;
+    
+    public SquareBumper(String id, int x, int y){
+		this.xCoord = x;
+		this.yCoord = y;
+		this.width = 1;
+		this.height = 1;
+		this.id = id;
+		this.reflecCoeff = 1;
+	}
 	
 	@Override
 	public boolean connect(Gadget g) {

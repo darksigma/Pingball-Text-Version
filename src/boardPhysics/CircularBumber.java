@@ -45,7 +45,7 @@ public class CircularBumber implements Gadget, BoardObject {
     /**
      * The circle representation for the bumper
      */
-    private final Circle circleRep;
+    protected final Circle circleRep;
     
 	public CircularBumber(String id, int x, int y){
 		this.xCoord = x;
