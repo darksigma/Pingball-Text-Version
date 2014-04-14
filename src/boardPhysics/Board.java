@@ -57,6 +57,7 @@ public class Board {
 	 * 			a gadget to be added to the board
 	 */
 	public void addGadgetToBoard(Gadget gadget){
+		// TODO Auto-generated method stub
 	}
 	
 	/**
@@ -66,6 +67,7 @@ public class Board {
 	 * 			a ball to be added to the board
 	 */
 	public void addBallToBoard(Ball ball){
+		// TODO Auto-generated method stub
 	}
 	
 	/**
@@ -75,6 +77,8 @@ public class Board {
 	 * 			an integer representing the largest x-coordinate that exists on the board	
 	 */
 	public int getXMax(){
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	/**
@@ -84,6 +88,8 @@ public class Board {
 	 * 			an integer representing the largest y-coordinate that exists on the board	
 	 */
 	public int getYMax(){
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	/**
@@ -94,7 +100,8 @@ public class Board {
 	 * 			returns the number of seconds until a collision will next occur
 	 */
 	public double secondsUntilNextCollision(){
-		
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	/**
@@ -105,7 +112,8 @@ public class Board {
 	 * 			returns a list of BoardObjects involved in the next collision
 	 */
 	public List<BoardObject> objectsAtNextCollision(){
-		
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/**
@@ -116,6 +124,7 @@ public class Board {
 	 * 			board
 	 */
 	public void step(double timeStep){
+		// TODO Auto-generated method stub
 	}
 	
 	
@@ -126,5 +135,7 @@ public class Board {
 	 * 			a string representing the board
 	 */
 	public String toString(){
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

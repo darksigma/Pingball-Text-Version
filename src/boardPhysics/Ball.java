@@ -1,6 +1,6 @@
 package boardPhysics;
 
-import physics.Vect;
+import physics.*;
 
 public class Ball implements BoardObject{
 	
@@ -39,6 +39,7 @@ public class Ball implements BoardObject{
 	/**
 	 * The board that this ball currently inhabits
 	 */
+		
 	private Board board;
 	
 	public Ball(Board board, double x, double y, double xVel, double yVel){
@@ -54,6 +55,8 @@ public class Ball implements BoardObject{
 	 * 		returns a double representing the x-coordinate of the ball
 	 */
 	public double getX(){
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	/**
@@ -63,14 +66,57 @@ public class Ball implements BoardObject{
 	 * 		returns a double representing the y-coordinate of the ball
 	 */
 	public double getY(){
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	/**
+	 * Determine the velocity of the ball
+	 * 
+	 * @return
+	 * 			returns a vector representing the velocity of the ball
+	 */
+	public Vect getVel(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * Changes the velocity of the ball
+	 * 
+	 * @param vector
+	 * 			the vector representing the new velocity of the ball
+	 */
+	public void setVel(Vect vector){
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Create a circle representing the ball at its given position
+	 * 
+	 * @return
+	 * 			returns Circle object representing the ball
+	 */
+	public Circle toCircle(){
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override
     public double secondsUntilImpact(Ball ball){
+		// TODO Auto-generated method stub
+		return 0;
     }
 	
 	@Override
 	public void step(double timeStep){
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Vect recalculateBallVelocity(Ball ball) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

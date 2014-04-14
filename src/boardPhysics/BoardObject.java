@@ -1,5 +1,7 @@
 package boardPhysics;
 
+import physics.*;
+
 public interface BoardObject {
 	
 	/**
@@ -28,7 +30,7 @@ public interface BoardObject {
 	 * @param ball
 	 * 			a ball that collided with this board object
 	 * @return
-	 * 			a double representing the new velocity of the ball
+	 * 			a vector representing the new velocity of the ball
 	 */
-	public double recalculateBallVelocity(Ball ball);
+	public Vect recalculateBallVelocity(Ball ball);
 }

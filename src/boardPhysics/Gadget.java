@@ -72,5 +72,19 @@ public interface Gadget {
      */
     public double getReflec();
     
+    /**
+     * Initiates the action of the gadget in response to a trigger
+     */
+    public void action();
+    
+    /**
+     * Trigger this gadget and all the gadgets it is connected to in response to a 
+     * ball colliding with it
+     * 
+     * @param ball 
+     * 			the ball that hit and triggered this gadget
+     */
+    public void trigger(Ball ball);
+    
 
 }
