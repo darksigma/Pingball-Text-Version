@@ -1,19 +1,40 @@
 package boardPhysics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import physics.*;
 
 public class Board {
 	
-	private int xDim;
+	private final int xDim;
 	private int yDim;
 	private ArrayList<Gadget> gadgets;
 	private ArrayList<Ball> balls;
 	
-	public Board(int xDim, int yDim){
+	private Board(int xDim, int yDim){
 		this.xDim = xDim;
 		this.yDim = yDim;
 		this.gadgets = new ArrayList<Gadget>();
 		this.balls = new ArrayList<Ball>();
+	}
+	
+	public Board newBoard(int xDim, int yDim, boolean[] wallsReflec){
+		Board board = new Board(xDim, yDim);
+		
+		List<LineSegment> walls = Arrays.asList(
+				new LineSegment(0, 0, xDim, 0),
+				new LineSegment(xDim, 0, xDim, yDim),
+				new LineSegment(xDim, yDim, 0, yDim),
+				new LineSegment(0, yDim, 0, 0)
+				); 
+		
+		for(int i = 0; i < 4; i ++){
+			board.addGadgetToBoard(new OuterWall(walls.get(i), wallsReflec[i]));
+		}
+		
+		return board;
 	}
 	
 	/**
@@ -52,8 +73,10 @@ public class Board {
 	public int getYMax(){
 	}
 	
-	
-	public void step(double timeStep){
+	/**
+	 * advances the whole board one step forward
+	 */
+	public void step(){
 	}
 	
 	/**
