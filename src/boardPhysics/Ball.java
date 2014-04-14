@@ -6,15 +6,14 @@ public class Ball implements BoardObject{
 	
 	/**
 	 * A set of constants describing the effects of friction on movement
-	 * 
 	 */
-	private static double MU_1 = 0.025;
-	private static double MU_2 = 0.025;
+	private static final double MU_1 = 0.025;
+	private static final double MU_2 = 0.025;
 	
 	/**
 	 * A constant describing the effective force of gravity on the ball
 	 */
-	private static double GRAVITY = 25.0;
+	private static final double GRAVITY = 25.0;
 	
 	/**
 	 * A vector to the center of the ball describing its position
@@ -24,7 +23,7 @@ public class Ball implements BoardObject{
 	/**
 	 * A double representing the length of a ball's radius
 	 */
-	private double radius;
+	private final double radius;
 	
 	/**
 	 * A vector representing the velocity of the ball
@@ -34,7 +33,7 @@ public class Ball implements BoardObject{
 	/**
 	 * A double representing the mass of the ball, to be used as needed
 	 */
-	private double mass;
+	private final double mass;
 	
 	/**
 	 * The board that this ball currently inhabits
@@ -42,10 +41,12 @@ public class Ball implements BoardObject{
 		
 	private Board board;
 	
-	public Ball(Board board, double x, double y, double xVel, double yVel){
+	public Ball(Board board, double x, double y, double xVel, double yVel, double radius, double mass){
 		this.pos = new Vect(x, y);
 		this.vel = new Vect(xVel, yVel);
 		this.board = board;
+		this.radius = radius;
+		this.mass = mass;
 	}
 	
 	/**

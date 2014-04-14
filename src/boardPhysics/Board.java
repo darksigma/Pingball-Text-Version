@@ -8,11 +8,30 @@ import physics.*;
 
 public class Board {
 	
+	/**
+	 * This is the maximal coordinate in the x direction
+	 */
 	private final int xDim;
-	private int yDim;
-	private ArrayList<Gadget> gadgets;
-	private ArrayList<Ball> balls;
-	private ArrayList<BoardObject> inhabitants;
+	
+	/**
+	 * This is the maximal coordinate in the y direction
+	 */
+	private final int yDim;
+	
+	/**
+	 * This is a list of gadgets on the board
+	 */
+	private final ArrayList<Gadget> gadgets;
+	
+	/**
+	 * This is a list of balls on the board
+	 */
+	private final ArrayList<Ball> balls;
+	
+	/**
+	 * This is a list of board objects on the board
+	 */
+	private final ArrayList<BoardObject> inhabitants;
 	
 	private Board(int xDim, int yDim){
 		this.xDim = xDim;
@@ -44,7 +63,7 @@ public class Board {
 				); 
 		
 		for(int i = 0; i < 4; i ++){
-			board.addGadgetToBoard(new OuterWall(walls.get(i), wallsReflec[i]));
+			board.addGadgetToBoard(new OuterWall("wall " + i, walls.get(i), wallsReflec[i]));
 		}
 		
 		return board;

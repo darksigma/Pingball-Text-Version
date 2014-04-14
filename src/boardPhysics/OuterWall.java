@@ -1,20 +1,62 @@
 package boardPhysics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import physics.*;
 
 
-public class OuterWall implements Gadget {
+public class OuterWall implements Gadget, BoardObject {
+	
 	private LineSegment wall;
+	
 	private boolean isReflec;
 	
-	public OuterWall(int x1, int y1, int x2, int y2, boolean isReflec){
-		this.wall = new LineSegment(x1, y1, x2, y2);
-		this.isReflec = isReflec;
-	}
+	/**
+     * List of gadgets whose triggers are connected to this gadget
+     */
+    protected List<Gadget> triggers;
+    
+    /**
+     * X coordinate of the upper left corner of this gadget
+     */
+    protected final int xCoord;
+    
+    /**
+     * Y coordinate of the upper left corner of this gadget
+     */
+    protected final int yCoord;
+    
+    /**
+     * The unique identifier of this wall
+     */
+    protected final String id;
+    
+    /**
+     * The reflection coefficient for this gadget
+     */
+    protected final double reflecCoeff;
 	
-	public OuterWall(LineSegment wall, boolean isReflec){
+	public OuterWall(String id, LineSegment wall, boolean isReflec){
 		this.wall = wall;
 		this.isReflec = isReflec;
+		this.id = id; 
+		this.triggers = new ArrayList<Gadget>();
+		this.reflecCoeff = 1.0;
+		
+		if(wall.p1().x() < wall.p2().x()){
+			this.xCoord = (int) wall.p1().x();
+			this.yCoord = (int) wall.p1().y();
+		} else if(wall.p2().x() < wall.p1().x()){
+			this.xCoord = (int) wall.p2().x();
+			this.yCoord = (int) wall.p2().y();
+		} else if(wall.p1().y() < wall.p2().y()){
+			this.xCoord = (int) wall.p1().x();
+			this.yCoord = (int) wall.p1().y();
+		} else{
+			this.xCoord = (int) wall.p2().x();
+			this.yCoord = (int) wall.p2().y();
+		}
 	}
 	
 	public void setReflec(boolean isReflec){
@@ -79,5 +121,23 @@ public class OuterWall implements Gadget {
 	public void trigger(Ball ball) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public double secondsUntilImpact(Ball ball) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void step(double timeStep) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vect recalculateBallVelocity(Ball ball) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

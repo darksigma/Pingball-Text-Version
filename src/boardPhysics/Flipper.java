@@ -1,7 +1,46 @@
 package boardPhysics;
 
-public class Flipper implements Gadget {
+import java.util.List;
 
+import physics.Vect;
+
+public class Flipper implements Gadget, BoardObject {
+	
+	/**
+     * List of gadgets whose triggers are connected to this gadget
+     */
+    protected List<Gadget> triggers;
+    
+    /**
+     * X coordinate of the upper left corner of this gadget
+     */
+    protected final int xCoord;
+    
+    /**
+     * Y coordinate of the upper left corner of this gadget
+     */
+    protected final int yCoord;
+    
+    /**
+     * The width of this gadget in units of L
+     */
+    protected int width;
+    
+    /**
+     * The height of this gadget in units of L
+     */
+    protected int height;
+    
+    /**
+     * The unique identifier of this wall
+     */
+    protected final String id;
+    
+    /**
+     * The reflection coefficient for this gadget
+     */
+    protected final double reflecCoeff;
+	
 	@Override
 	public boolean connect(Gadget g) {
 		// TODO Auto-generated method stub
@@ -60,6 +99,24 @@ public class Flipper implements Gadget {
 	public void trigger(Ball ball) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public double secondsUntilImpact(Ball ball) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void step(double timeStep) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vect recalculateBallVelocity(Ball ball) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
