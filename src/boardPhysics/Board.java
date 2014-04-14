@@ -31,7 +31,7 @@ public class Board {
 	 * 			Order is: top, right, bottom, left walls (clockwise order)
 	 * @return
 	 */
-	public Board newBoard(int xDim, int yDim, boolean[] wallsReflec){
+	public static Board newBoard(int xDim, int yDim, boolean[] wallsReflec){
 		Board board = new Board(xDim, yDim);
 		
 		List<LineSegment> walls = Arrays.asList(

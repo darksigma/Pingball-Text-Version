@@ -16,4 +16,8 @@ public class OuterWall implements Gadget {
 		this.wall = wall;
 		this.isReflec = isReflec;
 	}
+	
+	public void setReflec(boolean isReflec){
+		this.isReflec = isReflec;
+	}
 }
