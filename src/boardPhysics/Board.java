@@ -20,6 +20,17 @@ public class Board {
 		this.balls = new ArrayList<Ball>();
 	}
 	
+	/**
+	 * 
+	 * @param xDim
+	 * 			The size of the board in the x-dimension
+	 * @param yDim
+	 * 			The size of the board in the y-dimension
+	 * @param wallsReflec
+	 * 			A list of booleans determining whether the walls are reflective or invisible:
+	 * 			Order is: top, right, bottom, left walls (clockwise order)
+	 * @return
+	 */
 	public Board newBoard(int xDim, int yDim, boolean[] wallsReflec){
 		Board board = new Board(xDim, yDim);
 		
