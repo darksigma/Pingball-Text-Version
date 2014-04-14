@@ -2,7 +2,7 @@ package boardPhysics;
 
 import physics.Vect;
 
-public class Ball {
+public class Ball implements BoardObject{
 	
 	/**
 	 * A set of constants describing the effects of friction on movement
@@ -65,14 +65,11 @@ public class Ball {
 	public double getY(){
 	}
 	
-	/**
-     *Allows the ball to move about the board. If the item encounters other objects in the board,
-     *the item is reflected appropriately. If the item does not move, step returns the item's current
-     *position
-     *
-     *@param timeStep 
-     *		a double representing the time increment by which the velocity changes; cannot be null
-    **/
+	@Override
+    public double secondsUntilImpact(Ball ball){
+    }
+	
+	@Override
 	public void step(double timeStep){
 	}
 }

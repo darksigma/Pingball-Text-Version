@@ -12,12 +12,14 @@ public class Board {
 	private int yDim;
 	private ArrayList<Gadget> gadgets;
 	private ArrayList<Ball> balls;
+	private ArrayList<BoardObject> inhabitants;
 	
 	private Board(int xDim, int yDim){
 		this.xDim = xDim;
 		this.yDim = yDim;
 		this.gadgets = new ArrayList<Gadget>();
 		this.balls = new ArrayList<Ball>();
+		this.inhabitants = new ArrayList<BoardObject>();
 	}
 	
 	/**
@@ -85,10 +87,37 @@ public class Board {
 	}
 	
 	/**
-	 * advances the whole board one step forward
+	 * Calculate the number seconds until a collision would occur assuming that all objects
+	 * on the board maintained the same linear and angular velocities
+	 * 
+	 * @return
+	 * 			returns the number of seconds until a collision will next occur
 	 */
-	public void step(){
+	public double secondsUntilNextCollision(){
+		
 	}
+	
+	/**
+	 * Determine the objects involved in the next collision that would occur assuming that all objects
+	 * on the board maintained the same linear and angular velocities
+	 * 
+	 * @return
+	 * 			returns a list of BoardObjects involved in the next collision
+	 */
+	public List<BoardObject> objectsAtNextCollision(){
+		
+	}
+	
+	/**
+	 * Advances the whole board one step forward by a time step
+	 * 
+	 * @param timeStep
+	 * 			a double the represents the time by which we want to shift the state of the
+	 * 			board
+	 */
+	public void step(double timeStep){
+	}
+	
 	
 	/**
 	 * Returns a string representing the board to be printed on the screen and for debugging purposes
