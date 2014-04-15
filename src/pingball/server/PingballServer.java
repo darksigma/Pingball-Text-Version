@@ -45,26 +45,17 @@ public class PingballServer {
     }
     
     /**
-     * Handler for client input, performing requested operations and returning an output message.
-     * 
-     * @param input message from client
-     * @return message to client
-     */
-    private String handleRequest(String input) {
-        //TODO
-    }
-    
-    /**
      * Start a PingballServer using the given arguments.
      * 
      * Usage: PingballServer [--host HOST] [--port PORT] FILE
+     * @param args argument provided by user (optional host, optional port, filename)
      */
     public static void main(String[] args) {
         //TODO
     }
     
     /**
-     * Start a PingServer running on the specified port, with a board loaded from a file.
+     * Start a PingballServer running on the specified port, with a board loaded from a file.
      * 
      * @param file Start with a board loaded from the specified file, according to the input file format
      * defined in the pingball spec.
