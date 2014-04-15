@@ -1,5 +1,6 @@
 package boardPhysics;
 
+import java.util.Arrays;
 import java.util.List;
 
 import physics.LineSegment;
@@ -54,6 +55,10 @@ public class Absorber implements Gadget, BoardObject {
 		this.height = height;
 		this.id = id;
 		this.reflecCoeff = 0;
+		absorber = Arrays.asList(new LineSegment(x, y, x+width, y),
+								new LineSegment(x+width, y, x+width, y+height),
+								new LineSegment(x+width, y+height, x, y+height),
+								new LineSegment(x, y+height, x, y));
 	}
     
 	@Override

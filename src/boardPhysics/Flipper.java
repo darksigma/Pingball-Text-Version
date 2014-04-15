@@ -1,8 +1,10 @@
 package boardPhysics;
 
+import java.util.Arrays;
 import java.util.List;
 
 import physics.Circle;
+import physics.LineSegment;
 import physics.Vect;
 
 public class Flipper implements Gadget, BoardObject {
@@ -45,15 +47,34 @@ public class Flipper implements Gadget, BoardObject {
     /**
      * The line segment representing the flipper
      */
-    protected final LineSegment flipper;
+    protected final List<LineSegment> flipper;
     
-    public Flipper(String id, int x, int y){
+    /**
+     * True if the flipper is a right flipper, false if it is a left flipper.
+     */
+    protected final boolean isRight;
+    
+    /**
+     * Orientation of the flipper --> 0 if it is vertical, 0.5 f it is intermediate, 1 if it is horizontal
+     */
+    protected final double orientation;
+    
+    public Flipper(String id, int x, int y, boolean isRight, int startingOrientation){
 		this.xCoord = x;
 		this.yCoord = y;
 		this.width = 2;
 		this.height = 2;
 		this.id = id;
 		this.reflecCoeff = 0.95;
+		this.isRight = isRight;
+		this.orientation = startingOrientation;
+		if(isRight){
+			this.flipper = Arrays.asList(new LineSegment(new Vect(x, y), new Vect(x, y+2)),
+										new LineSegment(new Vect(x, y), new Vect(x+2, y)));
+		} else{
+			this.flipper = Arrays.asList(new LineSegment(new Vect(x+2, y), new Vect(x+2, y+2)),
+										new LineSegment(new Vect(x, y), new Vect(x+2, y)));
+		}
 	}
 	
 	@Override

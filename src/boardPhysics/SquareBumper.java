@@ -1,5 +1,6 @@
 package boardPhysics;
 
+import java.util.Arrays;
 import java.util.List;
 
 import physics.LineSegment;
@@ -54,6 +55,10 @@ public class SquareBumper implements Gadget, BoardObject {
 		this.height = 1;
 		this.id = id;
 		this.reflecCoeff = 1;
+		this.squareSides = Arrays.asList(new LineSegment(x, y, x+1, y),
+										new LineSegment(x+1, y, x+1, y+1),
+										new LineSegment(x+1, y+1, x, y+1),
+										new LineSegment(x, y+1, x, y));
 	}
 	
 	@Override
