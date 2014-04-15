@@ -55,8 +55,7 @@ public class Ball implements BoardObject{
 	 * 		returns a double representing the x-coordinate of the ball
 	 */
 	public double getX(){
-		// TODO Auto-generated method stub
-		return 0;
+		return pos.x();
 	}
 	
 	/**
@@ -66,8 +65,27 @@ public class Ball implements BoardObject{
 	 * 		returns a double representing the y-coordinate of the ball
 	 */
 	public double getY(){
-		// TODO Auto-generated method stub
-		return 0;
+		return pos.y();
+	}
+	
+	/**
+	 * Determine the mass of the ball
+	 * 
+	 * @return
+	 * 		returns a double representing the mass of the ball
+	 */
+	public double getMass(){
+		return mass;
+	}
+	
+	/**
+	 * Determine the position of the ball
+	 * 
+	 * @return
+	 * 			returns a vector representing the position of the ball
+	 */
+	public Vect getPos(){
+		return pos;
 	}
 	
 	/**
@@ -77,8 +95,7 @@ public class Ball implements BoardObject{
 	 * 			returns a vector representing the velocity of the ball
 	 */
 	public Vect getVel(){
-		// TODO Auto-generated method stub
-		return null;
+		return vel;
 	}
 	
 	/**
@@ -87,8 +104,8 @@ public class Ball implements BoardObject{
 	 * @param vector
 	 * 			the vector representing the new velocity of the ball
 	 */
-	public void setVel(Vect vector){
-		// TODO Auto-generated method stub
+	public void setVel(Vect vel){
+		this.vel = vel;
 	}
 	
 	/**
@@ -98,7 +115,7 @@ public class Ball implements BoardObject{
 	 * 			the pos representing the new position of the ball
 	 */
 	public void setPos(Vect pos){
-		// TODO Auto-generated method stub
+		this.pos = pos;
 	}
 
 	
@@ -109,14 +126,12 @@ public class Ball implements BoardObject{
 	 * 			returns Circle object representing the ball
 	 */
 	public Circle toCircle(){
-		// TODO Auto-generated method stub
-		return null;
+		return new Circle(pos, radius);
 	}
 	
 	@Override
     public double secondsUntilImpact(Ball ball){
-		// TODO Auto-generated method stub
-		return 0;
+		return Geometry.timeUntilBallBallCollision(this.toCircle(), this.vel, ball.toCircle(), ball.getVel());
     }
 	
 	@Override
@@ -126,8 +141,7 @@ public class Ball implements BoardObject{
 
 	@Override
 	public Vect recalculateBallVelocity(Ball ball) {
-		// TODO Auto-generated method stub
-		return null;
+		return Geometry.reflectBalls(this.pos, this.mass, this.vel, ball.getPos(), ball.getMass(), ball.getVel()).v2;
 	}
 }
 

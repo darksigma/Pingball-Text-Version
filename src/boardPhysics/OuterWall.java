@@ -59,56 +59,64 @@ public class OuterWall implements Gadget, BoardObject {
 		}
 	}
 	
+	/**
+	 * Sets the reflectivity property of the wall
+	 * 
+	 * @param isReflec
+	 * 			True if the wall is reflective, false if it is invisible
+	 */
 	public void setReflec(boolean isReflec){
 		this.isReflec = isReflec;
+	}
+	
+	/**
+	 * Determines the reflectivity property of the wall
+	 * 
+	 * @return
+	 * 			True if the wall is reflective, false if it is invisible
+	 */
+	public boolean isReflec(){
+		return isReflec;
 	}
 
 	@Override
 	public boolean connect(Gadget g) {
-		// TODO Auto-generated method stub
-		return false;
+		return triggers.add(g);
 	}
 
 	@Override
 	public boolean disconnect(Gadget g) {
-		// TODO Auto-generated method stub
-		return false;
+		return triggers.remove(g);
 	}
 
 	@Override
 	public int getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return xCoord;
 	}
 
 	@Override
 	public int getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return yCoord;
 	}
 
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
-		return null;
+		return id;
 	}
 
 	@Override
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) Math.abs(wall.p1().x() - wall.p2().x());
 	}
 
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) Math.abs(wall.p1().y() - wall.p2().y());
 	}
 
 	@Override
 	public double getReflec() {
-		// TODO Auto-generated method stub
-		return 0;
+		return reflecCoeff;
 	}
 
 	@Override

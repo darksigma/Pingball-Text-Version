@@ -59,50 +59,42 @@ public class CircularBumber implements Gadget, BoardObject {
     
 	@Override
 	public boolean connect(Gadget g) {
-		// TODO Auto-generated method stub
-		return false;
+		return triggers.add(g);
 	}
 
 	@Override
 	public boolean disconnect(Gadget g) {
-		// TODO Auto-generated method stub
-		return false;
+		return triggers.remove(g);
 	}
 
 	@Override
 	public int getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return xCoord;
 	}
 
 	@Override
 	public int getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return yCoord;
 	}
 
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
-		return null;
+		return id;
 	}
-
+	
 	@Override
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double getReflec() {
-		// TODO Auto-generated method stub
-		return 0;
+		return reflecCoeff;
 	}
 
 	@Override
