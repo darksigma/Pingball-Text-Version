@@ -129,6 +129,16 @@ public class Ball implements BoardObject{
 		return new Circle(pos, radius);
 	}
 	
+	/**
+	 * Serves to retrieve the identifier associated with this ball
+	 * 
+	 * @return
+	 * 			the string ID associated with this ball
+	 */
+	public Object getID() {
+		return id;
+	}
+	
 	@Override
     public double secondsUntilImpact(Ball ball){
 		return Geometry.timeUntilBallBallCollision(this.toCircle(), this.vel, ball.toCircle(), ball.getVel());
@@ -143,5 +153,6 @@ public class Ball implements BoardObject{
 	public Vect recalculateBallVelocity(Ball ball) {
 		return Geometry.reflectBalls(this.pos, this.mass, this.vel, ball.getPos(), ball.getMass(), ball.getVel()).v2;
 	}
+
 }
 
