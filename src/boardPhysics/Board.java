@@ -9,6 +9,17 @@ import physics.*;
 public class Board {
 	
 	/**
+	 * A set of constants describing the effects of friction on movement
+	 */
+	private static final double MU_1 = 0.025;
+	private static final double MU_2 = 0.025;
+	
+	/**
+	 * A constant describing the effective force of gravity on the ball
+	 */
+	private static final double GRAVITY = 25.0;
+	
+	/**
 	 * This is the maximal coordinate in the x direction
 	 */
 	private final int xDim;
@@ -111,29 +122,30 @@ public class Board {
 		return yDim;
 	}
 	
-	/**
-	 * Calculate the number seconds until a collision would occur assuming that all objects
-	 * on the board maintained the same linear and angular velocities
-	 * 
-	 * @return
-	 * 			returns the number of seconds until a collision will next occur
-	 */
-	public double detailsOfNextCollision(){
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	/**
-	 * Determine the objects involved in the next collision that would occur assuming that all objects
-	 * on the board maintained the same linear and angular velocities
-	 * 
-	 * @return
-	 * 			returns a list of BoardObjects involved in the next collision
-	 */
-	public List<BoardObject> objectsAtNextCollision(){
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	/**
+//	 * Calculate the number seconds until a collision would occur assuming that all objects
+//	 * on the board maintained the same linear and angular velocities and determines the new
+//	 * velociti
+//	 * 
+//	 * @return
+//	 * 			returns the number of seconds until a collision will next occur
+//	 */
+//	public double[] detailsOfNextCollision(){
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//	
+//	/**
+//	 * Determine the objects involved in the next collision that would occur assuming that all objects
+//	 * on the board maintained the same linear and angular velocities
+//	 * 
+//	 * @return
+//	 * 			returns a list of BoardObjects involved in the next collision
+//	 */
+//	public List<BoardObject> objectsAtNextCollision(){
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	/**
 	 * Advances the whole board one step forward by a time step
@@ -143,7 +155,27 @@ public class Board {
 	 * 			board
 	 */
 	public void step(double timeStep){
-		// TODO Auto-generated method stub
+		
+		for(Ball ball : balls){
+			Vect vOld = ball.getVel();
+			
+			// Vnew = Vold × ( 1 - mu × delta_t - mu2 × |Vold| × delta_t )
+			Vect vNew = vOld.times(1 - MU_1*timeStep - MU_2*vOld.length()*timeStep);
+			
+			ball.setVel(vNew);
+		}
+		
+		double minTimeUntilBallBallCollision = Double.POSITIVE_INFINITY;
+		Ball[] ballBallCollision = new Ball[2];
+		for(int i = 0; i < balls.size() - 1; i++){
+			for(int j = i + 1; j < balls.size(); j++){
+				Ball ball1 = balls.get(i);
+				Ball ball2 = balls.get(j);
+				
+			}
+		}
+		
+		
 	}
 	
 	
