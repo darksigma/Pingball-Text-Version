@@ -76,7 +76,8 @@ public class Board {
 	 * 			a gadget to be added to the board
 	 */
 	public void addGadgetToBoard(Gadget gadget){
-		// TODO Auto-generated method stub
+		gadgets.add(gadget);
+		inhabitants.add((BoardObject) gadget);
 	}
 	
 	/**
@@ -86,7 +87,8 @@ public class Board {
 	 * 			a ball to be added to the board
 	 */
 	public void addBallToBoard(Ball ball){
-		// TODO Auto-generated method stub
+		balls.add(ball);
+		inhabitants.add((BoardObject) ball);
 	}
 	
 	/**
@@ -96,8 +98,7 @@ public class Board {
 	 * 			an integer representing the largest x-coordinate that exists on the board	
 	 */
 	public int getXMax(){
-		// TODO Auto-generated method stub
-		return 0;
+		return xDim;
 	}
 	
 	/**
@@ -107,8 +108,7 @@ public class Board {
 	 * 			an integer representing the largest y-coordinate that exists on the board	
 	 */
 	public int getYMax(){
-		// TODO Auto-generated method stub
-		return 0;
+		return yDim;
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class Board {
 	 * @return
 	 * 			returns the number of seconds until a collision will next occur
 	 */
-	public double secondsUntilNextCollision(){
+	public double detailsOfNextCollision(){
 		// TODO Auto-generated method stub
 		return 0;
 	}

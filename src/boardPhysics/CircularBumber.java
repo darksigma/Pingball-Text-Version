@@ -3,6 +3,7 @@ package boardPhysics;
 import java.util.List;
 
 import physics.Circle;
+import physics.Geometry;
 import physics.Vect;
 
 public class CircularBumber implements Gadget, BoardObject {
@@ -110,21 +111,16 @@ public class CircularBumber implements Gadget, BoardObject {
 	}
 
 	@Override
-	public double secondsUntilImpact(Ball ball) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void step(double timeStep) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Vect recalculateBallVelocity(Ball ball) {
-		// TODO Auto-generated method stub
-		return null;
+	public double[] impactCalc(Ball ball) {
+		double timeUntilCollision = Geometry.timeUntilCircleCollision(circleRep, ball.toCircle(), ball.getVel());
+		Vect newVel = Geometry.reflectCircle(circleRep.getCenter(), ball.getPos(), ball.getVel(), reflecCoeff);
+		return new double[]{timeUntilCollision, newVel.x(), newVel.y()};
 	}
 
 }

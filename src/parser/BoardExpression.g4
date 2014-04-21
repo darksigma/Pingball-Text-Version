@@ -27,7 +27,7 @@ grammar BoardExpression;
 	WHITE: [ \t\r\n]+ -> skip;
 	COMMENTERS: '#'~[\r\n]* -> skip;
 	NAME: [A-Za-z_][A-Za-z_0-9]*;
-	NUMBAH:	'-'?[0-9]+ | '-'[0-9]*'.'[0-9]*;
+	NUMBAH:	'-'?[0-9]+ | '-'?[0-9]*'.'[0-9]*;
 	EQUALS: '=';
 	
 	
@@ -37,7 +37,11 @@ grammar BoardExpression;
 	
 	root: premise EOF;
 	premise: board (ball | squareBumper | circleBumper | triangleBumper | rightFlipper | leftFlipper | absorber | fire)*;
-	board: 'board name' EQUALS NAME ('gravity' EQUALS NUMBAH | 'friction1' EQUALS NUMBAH | 'friction2' EQUALS NUMBAH)*;
+	board: (name | gravity | friction1 | friction2)*;
+	name: 'name' EQUALS NAME;
+	gravity: 'gravity' EQUALS NUMBAH;
+	friction1: 'friction1' EQUALS NUMBAH;
+	friction2: 'friction2' EQUALS NUMBAH;
 	ball: 'ball name' EQUALS NAME 'x' EQUALS NUMBAH 'y' EQUALS NUMBAH 'xVelocity' EQUALS NUMBAH 'yVelocity' EQUALS NUMBAH;
 	squareBumper: 'squareBumper name' EQUALS NAME 'x' EQUALS NUMBAH 'y' EQUALS NUMBAH;
 	circleBumper: 'circleBumper name' EQUALS NAME 'x' EQUALS NUMBAH 'y' EQUALS NUMBAH;

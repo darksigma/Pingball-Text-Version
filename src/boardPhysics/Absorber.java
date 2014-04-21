@@ -3,6 +3,7 @@ package boardPhysics;
 import java.util.Arrays;
 import java.util.List;
 
+import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
@@ -46,7 +47,7 @@ public class Absorber implements Gadget, BoardObject {
     /**
      * List of line segments representing the absorber
      */
-    protected final List<LineSegment> absorber;
+    protected final List<LineSegment> absorberEdges;
 	
     public Absorber(String id, int x, int y, int width, int height){
 		this.xCoord = x;
@@ -55,7 +56,7 @@ public class Absorber implements Gadget, BoardObject {
 		this.height = height;
 		this.id = id;
 		this.reflecCoeff = 0;
-		absorber = Arrays.asList(new LineSegment(x, y, x+width, y),
+		this.absorberEdges = Arrays.asList(new LineSegment(x, y, x+width, y),
 								new LineSegment(x+width, y, x+width, y+height),
 								new LineSegment(x+width, y+height, x, y+height),
 								new LineSegment(x, y+height, x, y));
@@ -114,21 +115,26 @@ public class Absorber implements Gadget, BoardObject {
 	}
 
 	@Override
-	public double secondsUntilImpact(Ball ball) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void step(double timeStep) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Vect recalculateBallVelocity(Ball ball) {
-		// TODO Auto-generated method stub
-		return null;
+	public double[] impactCalc(Ball ball) {
+		double minTimeToCollision = Double.POSITIVE_INFINITY;
+		LineSegment closestEdge = absorberEdges.get(0);
+		for (LineSegment edge : absorberEdges){
+			double timeToCollision = Geometry.timeUntilWallCollision(edge, ball.toCircle(), ball.getVel());
+			if (timeToCollision < minTimeToCollision){
+				minTimeToCollision = timeToCollision;
+				closestEdge = edge;
+			}
+		}
+		
+		Vect newVel = Geometry.reflectWall(closestEdge, ball.getVel(), reflecCoeff);
+		
+		return new double[] {minTimeToCollision, newVel.x(), newVel.y()};
 	}
 
 }

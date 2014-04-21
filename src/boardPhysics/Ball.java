@@ -36,6 +36,12 @@ public class Ball implements BoardObject{
 	private final double mass;
 	
 	/**
+	 * A boolean that is true if a ball is held by an absorber and true
+	 * otherwise
+	 */
+	private boolean inAbsorber;
+	
+	/**
      * The unique identifier of this ball
      */
     protected final String id;
@@ -46,6 +52,7 @@ public class Ball implements BoardObject{
 		this.vel = new Vect(xVel, yVel);
 		this.radius = radius;
 		this.mass = mass;
+		this.inAbsorber = false;
 	}
 	
 	/**
@@ -99,6 +106,16 @@ public class Ball implements BoardObject{
 	}
 	
 	/**
+	 * Determine whether the ball is being held by an absorber
+	 * 
+	 * @return
+	 * 			returns a true if the ball is in an absorber and false otherwise
+	 */
+	public boolean getInAbsorber(){
+		return inAbsorber;
+	}
+	
+	/**
 	 * Changes the velocity of the ball
 	 * 
 	 * @param vector
@@ -116,6 +133,16 @@ public class Ball implements BoardObject{
 	 */
 	public void setPos(Vect pos){
 		this.pos = pos;
+	}
+	
+	/**
+	 * Changes the status of whether ball is being held by an absorber
+	 * 
+	 * @param inAbsorber
+	 * 			boolean of whether the ball is now in an absorber
+	 */
+	public void setInAbsorber(boolean inAbsorber){
+		this.inAbsorber = inAbsorber;
 	}
 
 	
@@ -140,18 +167,16 @@ public class Ball implements BoardObject{
 	}
 	
 	@Override
-    public double secondsUntilImpact(Ball ball){
-		return Geometry.timeUntilBallBallCollision(this.toCircle(), this.vel, ball.toCircle(), ball.getVel());
-    }
-	
-	@Override
 	public void step(double timeStep){
 		// TODO Auto-generated method stub
 	}
-
+	
 	@Override
-	public Vect recalculateBallVelocity(Ball ball) {
-		return Geometry.reflectBalls(this.pos, this.mass, this.vel, ball.getPos(), ball.getMass(), ball.getVel()).v2;
+	public double[] impactCalc(Ball ball){
+		double secondsUntilImpact = Geometry.timeUntilBallBallCollision(this.toCircle(), this.vel, ball.toCircle(), ball.getVel());
+		Vect newVel = Geometry.reflectBalls(this.pos, this.mass, this.vel, ball.getPos(), ball.getMass(), ball.getVel()).v2;
+		
+		return new double[]{secondsUntilImpact, newVel.x(), newVel.y()};
 	}
 
 }
