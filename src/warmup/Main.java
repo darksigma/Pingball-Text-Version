@@ -22,12 +22,14 @@ public class Main {
     	final Board board = Board.newBoard(20,20);
 		final Ball ball1 = new Ball("ball1", 5, 1, 0, 30, 0.5, 1);
 		final Ball ball2 = new Ball("ball2", 4, 15, 10, -10, 0.5, 1);
+		final Ball ball3 = new Ball("ball3", 7, 18, 100, -100, 0.5, 1);
 		final SquareBumper s1 = new SquareBumper("s1", 5, 7);
 		final CircularBumper c1 = new CircularBumper("s1", 8, 19);
 		final CircularBumper c2 = new CircularBumper("s1", 17, 2);
 		final TriangularBumper t1 = new TriangularBumper("t1", 3, 10, 270);
 		board.addBallToBoard(ball1);
 		board.addBallToBoard(ball2);
+		board.addBallToBoard(ball3);
 		board.addGadgetToBoard(s1);
 		board.addGadgetToBoard(t1);
 		board.addGadgetToBoard(c1);

@@ -320,8 +320,7 @@ public class Board {
 					boardRep[g.getY() + 1][g.getX() + 1]= '/';
 				if(((TriangularBumper) g).getOrientation() % 2 == 1)	
 					boardRep[g.getY() + 1][g.getX() + 1]= '\\';
-			}
-			else if(g instanceof CircularBumper){
+			}else if(g instanceof CircularBumper){
 				boardRep[g.getY() + 1][g.getX() + 1]= 'O';
 			}
 		}
