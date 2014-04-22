@@ -1,5 +1,6 @@
 package boardPhysics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class Flipper implements Gadget, BoardObject {
 		this.reflecCoeff = 0.95;
 		this.isRight = isRight;
 		this.orientation = startingOrientation;
+		this.triggers = new ArrayList<Gadget>();
 		if(isRight){
 			this.flipper = Arrays.asList(new LineSegment(new Vect(x, y), new Vect(x, y+2)),
 										new LineSegment(new Vect(x, y), new Vect(x+2, y)));

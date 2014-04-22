@@ -1,12 +1,13 @@
 package boardPhysics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import physics.Circle;
 import physics.Geometry;
 import physics.Vect;
 
-public class CircularBumber implements Gadget, BoardObject {
+public class CircularBumper implements Gadget, BoardObject {
 		
 	/**
      * List of gadgets whose triggers are connected to this gadget
@@ -48,7 +49,7 @@ public class CircularBumber implements Gadget, BoardObject {
      */
     protected final Circle circleRep;
     
-	public CircularBumber(String id, int x, int y){
+	public CircularBumper(String id, int x, int y){
 		this.xCoord = x;
 		this.yCoord = y;
 		this.width = 1;
@@ -56,6 +57,7 @@ public class CircularBumber implements Gadget, BoardObject {
 		this.id = id;
 		this.reflecCoeff = 1.0;
 		this.circleRep = new Circle(x+ 0.5, y + 0.5, 0.5);
+		this.triggers = new ArrayList<Gadget>();
 	}
     
 	@Override
@@ -100,20 +102,20 @@ public class CircularBumber implements Gadget, BoardObject {
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void trigger(Ball ball) {
-		// TODO Auto-generated method stub
-		
+		action();
+		for (Gadget t : triggers){
+			t.trigger(ball);
+		}
 	}
 
 	@Override
 	public void progress(double timeStep) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override

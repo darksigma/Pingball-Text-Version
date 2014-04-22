@@ -1,5 +1,6 @@
 package boardPhysics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class SquareBumper implements Gadget, BoardObject {
      */
     protected final List<LineSegment> squareSides;
     
+    /**
+     * List of circles representing the square bumper vertices
+     */
     protected final List<Circle> squareVertices;
     
     public SquareBumper(String id, int x, int y){
@@ -67,6 +71,7 @@ public class SquareBumper implements Gadget, BoardObject {
 											new Circle(x+1, y, 0),
 											new Circle(x, y+1, 0),
 											new Circle(x+1, y+1, 0));
+		this.triggers = new ArrayList<Gadget>();
 	}
 	
     @Override
@@ -111,37 +116,58 @@ public class SquareBumper implements Gadget, BoardObject {
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void trigger(Ball ball) {
-		// TODO Auto-generated method stub
-		
+		action();
+		for (Gadget t : triggers){
+			t.trigger(ball);
+		}
 	}
 
 	@Override
 	public double[] impactCalc(Ball ball) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void progress(double timeStep) {
-		double minTimeToCollision = Double.POSITIVE_INFINITY;
-		LineSegment closestEdge = absorberEdges.get(0);
-		for (LineSegment edge : absorberEdges){
+		double minTimeToEdgeCollision = Double.POSITIVE_INFINITY;
+		LineSegment closestEdge = squareSides.get(0);
+		
+		for (LineSegment edge : squareSides){
 			double timeToCollision = Geometry.timeUntilWallCollision(edge, ball.toCircle(), ball.getVel());
-			if (timeToCollision < minTimeToCollision){
-				minTimeToCollision = timeToCollision;
+			if (timeToCollision < minTimeToEdgeCollision){
+				minTimeToEdgeCollision = timeToCollision;
 				closestEdge = edge;
 			}
 		}
 		
-		Vect newVel = Geometry.reflectWall(closestEdge, ball.getVel(), reflecCoeff);
+		double minTimeToVertexCollision = Double.POSITIVE_INFINITY;
+		Circle closestVertex = squareVertices.get(0);
+		
+		for (Circle vertex : squareVertices){
+			double timeToCollision = Geometry.timeUntilCircleCollision(vertex, ball.toCircle(), ball.getVel());
+			if (timeToCollision < minTimeToVertexCollision){
+				minTimeToVertexCollision = timeToCollision;
+				closestVertex = vertex;
+			}
+		}
+		
+		Vect newVel;
+		double minTimeToCollision;
+		
+		if (minTimeToEdgeCollision < minTimeToVertexCollision){
+			newVel = Geometry.reflectWall(closestEdge, ball.getVel(), reflecCoeff);
+			minTimeToCollision = minTimeToEdgeCollision;
+		} else{
+			newVel = Geometry.reflectCircle(closestVertex.getCenter(), ball.getPos(), ball.getVel(), reflecCoeff);
+			minTimeToCollision = minTimeToVertexCollision;
+		}
 		
 		return new double[] {minTimeToCollision, newVel.x(), newVel.y()};
+	}
+
+	@Override
+	public void progress(double timeStep) {
+		return;
 	}
 
 }

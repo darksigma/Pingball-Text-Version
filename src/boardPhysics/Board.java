@@ -83,7 +83,7 @@ public class Board {
 		for(int i = 0; i < 4; i ++){
 			board.addGadgetToBoard(new OuterWall("wall " + i, walls.get(i), wallsReflec[i]));
 		}
-		
+				
 		return board;
 	}
 	
@@ -129,31 +129,6 @@ public class Board {
 		return yDim;
 	}
 	
-//	/**
-//	 * Calculate the number seconds until a collision would occur assuming that all objects
-//	 * on the board maintained the same linear and angular velocities and determines the new
-//	 * velociti
-//	 * 
-//	 * @return
-//	 * 			returns the number of seconds until a collision will next occur
-//	 */
-//	public double[] detailsOfNextCollision(){
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-//	
-//	/**
-//	 * Determine the objects involved in the next collision that would occur assuming that all objects
-//	 * on the board maintained the same linear and angular velocities
-//	 * 
-//	 * @return
-//	 * 			returns a list of BoardObjects involved in the next collision
-//	 */
-//	public List<BoardObject> objectsAtNextCollision(){
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
 	/**
 	 * Advances the whole board one step forward by a time step
 	 * 
@@ -179,20 +154,29 @@ public class Board {
 			ball.setVel(vNew);
 		}
 		
+		Ball collisionBall1 = null;
+		Ball collisionBall2 = null;
+		Ball collisionBall3 = null;
+		Gadget collisionGadget = null;
+		
 		//With the current velocities and positions determine the time for the next ball-ball
 		//collision as well as the balls that actually collide
 		double minTimeUntilBallBallCollision = Double.POSITIVE_INFINITY;
-		Ball collisionBall1 = balls.get(0);
-		Ball collisionBall2 = balls.get(1);
-		for(int i = 0; i < balls.size() - 1; i++){
-			for(int j = i + 1; j < balls.size(); j++){
-				Ball ball1 = balls.get(i);
-				Ball ball2 = balls.get(j);
-				if(!ball1.getInAbsorber() && !ball2.getInAbsorber()){	
-					double timeUntilCollision = ball1.impactCalc(ball2)[0];
-					if (timeUntilCollision < minTimeUntilBallBallCollision){
-						collisionBall1 = ball1;
-						collisionBall2 = ball2;
+		
+		if(balls.size() > 1){
+			collisionBall1 = balls.get(0);
+			collisionBall2 = balls.get(1);
+			for(int i = 0; i < balls.size() - 1; i++){
+				for(int j = i + 1; j < balls.size(); j++){
+					Ball ball1 = balls.get(i);
+					Ball ball2 = balls.get(j);
+					if(!ball1.getInAbsorber() && !ball2.getInAbsorber()){	
+						double timeUntilCollision = ball1.impactCalc(ball2)[0];
+						if (timeUntilCollision < minTimeUntilBallBallCollision){
+							minTimeUntilBallBallCollision = timeUntilCollision;
+							collisionBall1 = ball1;
+							collisionBall2 = ball2;
+						}
 					}
 				}
 			}
@@ -201,19 +185,25 @@ public class Board {
 		//With the current velocities and positions determine the time for the next ball-gadget
 		//collision and determine the objects involved in that collision
 		double minTimeUntilBallGadgetCollision = Double.POSITIVE_INFINITY;
-		Ball collisionBall3 = balls.get(0);
-		Gadget collisionGadget = gadgets.get(0);
-		for(Ball b : balls){
-			if(!b.getInAbsorber()){
-				for(Gadget g : gadgets){
-					double timeUntilCollision = ((BoardObject) g).impactCalc(b)[0];
-					if (timeUntilCollision < minTimeUntilBallGadgetCollision){
-						collisionBall3 = b;
-						collisionGadget = g;
+		if(balls.size() > 0 && gadgets.size() > 0){
+			collisionBall3 = balls.get(0);
+			collisionGadget = gadgets.get(0);
+			for(Ball b : balls){
+				if(!b.getInAbsorber()){
+					for(Gadget g : gadgets){
+						double timeUntilCollision = ((BoardObject) g).impactCalc(b)[0];
+						//System.out.println(g.getID() + " " +timeUntilCollision);
+						if (timeUntilCollision < minTimeUntilBallGadgetCollision){
+							minTimeUntilBallGadgetCollision = timeUntilCollision;
+							collisionBall3 = b;
+							collisionGadget = g;
+						}
 					}
 				}
 			}
 		}
+		
+	
 		
 		//Trivially progress the board if the next determined collision of any kind doesn't happen
 		//within the time step
@@ -242,6 +232,7 @@ public class Board {
 		//progress the board trivially until just before the collision, modify the ball velocity
 		//and trigger the gadget. Then recursively call the step function passing the remaining time 
 		//as the argument for step()
+		
 		progress(minTimeUntilBallGadgetCollision - TIME_EPSILON);
 		
 		Vect ball3Vel = new Vect(((BoardObject)collisionGadget).impactCalc(collisionBall3)[1], ((BoardObject)collisionGadget).impactCalc(collisionBall3)[2]);
@@ -275,7 +266,44 @@ public class Board {
 	 * 			a string representing the board
 	 */
 	public String toString(){
-		// TODO Auto-generated method stub
-		return null;
+		char[][] boardRep = new char[yDim + 2][xDim + 2];
+		
+		for(int i = 0; i < yDim + 2; i++){
+			boardRep[i][0] = '.';
+			boardRep[i][xDim + 1] = '.';
+		}
+		
+		for(int i = 0; i < xDim + 2; i++){
+			boardRep[0][i] = '.';
+			boardRep[yDim + 1][i] = '.';
+		}
+		
+		for (Gadget g : gadgets){
+			if(g instanceof SquareBumper){
+				boardRep[g.getY() + 1][g.getX() + 1]= '#';
+			}else if(g instanceof TriangularBumper){
+				if(((TriangularBumper) g).getOrientation() % 2 == 0)	
+					boardRep[g.getY() + 1][g.getX() + 1]= '/';
+				if(((TriangularBumper) g).getOrientation() % 2 == 1)	
+					boardRep[g.getY() + 1][g.getX() + 1]= '\\';
+			}
+			else if(g instanceof CircularBumper){
+				boardRep[g.getY() + 1][g.getX() + 1]= 'O';
+			}
+		}
+		
+		for(Ball b : balls){
+			boardRep[(int) (b.getY() + 1)][(int) (b.getX() + 1)]= '*';
+		}
+		
+		StringBuffer boardString = new StringBuffer();
+		for(char[] row : boardRep){
+			for(char c : row){
+				boardString.append(c);
+			}
+			boardString.append('\n');
+		}
+		
+		return boardString.toString();
 	}
 }

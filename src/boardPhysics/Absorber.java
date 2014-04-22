@@ -1,5 +1,6 @@
 package boardPhysics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class Absorber implements Gadget, BoardObject {
 		this.height = height;
 		this.id = id;
 		this.reflecCoeff = 0;
+		this.triggers = new ArrayList<Gadget>();
 		this.absorberEdges = Arrays.asList(new LineSegment(x, y, x+width, y),
 								new LineSegment(x+width, y, x+width, y+height),
 								new LineSegment(x+width, y+height, x, y+height),
@@ -122,19 +124,8 @@ public class Absorber implements Gadget, BoardObject {
 
 	@Override
 	public double[] impactCalc(Ball ball) {
-		double minTimeToCollision = Double.POSITIVE_INFINITY;
-		LineSegment closestEdge = absorberEdges.get(0);
-		for (LineSegment edge : absorberEdges){
-			double timeToCollision = Geometry.timeUntilWallCollision(edge, ball.toCircle(), ball.getVel());
-			if (timeToCollision < minTimeToCollision){
-				minTimeToCollision = timeToCollision;
-				closestEdge = edge;
-			}
-		}
-		
-		Vect newVel = Geometry.reflectWall(closestEdge, ball.getVel(), reflecCoeff);
-		
-		return new double[] {minTimeToCollision, newVel.x(), newVel.y()};
+		//TODO
+		return null;
 	}
 
 }

@@ -1,8 +1,11 @@
 package boardPhysics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import physics.Circle;
+import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
@@ -48,6 +51,20 @@ public class TriangularBumper implements Gadget, BoardObject {
      */
     protected final List<LineSegment> triangleSides;
     
+    /**
+     * List of circles representing the triangle bumper vertices
+     */
+    protected final List<Circle> triangleVertices;
+    
+    /**
+     * Represents orientation of the triangular bumper:
+     * 		0. 0 degrees
+     * 		1. 90 degrees
+     * 		2. 180 degrees
+     * 		3. 270 degrees
+     */
+    protected final int orientation;
+    
     public TriangularBumper(String id, int x, int y, int orientation){
 		this.xCoord = x;
 		this.yCoord = y;
@@ -55,29 +72,42 @@ public class TriangularBumper implements Gadget, BoardObject {
 		this.height = 1;
 		this.id = id;
 		this.reflecCoeff = 0.95;
+		this.triggers = new ArrayList<Gadget>();
 		
-		int caseNo = (orientation % 360)/90;
+		this.orientation = (orientation % 360)/90;
 		
-		switch(caseNo){
+		switch(this.orientation){
 			case 0:
 				triangleSides = Arrays.asList(new LineSegment(x, y+1, x, y),
 											new LineSegment(x, y, x+1, y),
 											new LineSegment(x, y+1, x+1, y));
+				triangleVertices = Arrays.asList(new Circle(x, y, 0),
+												new Circle(x+1, y, 0),
+												new Circle(x, y+1, 0));
 				break;
 			case 1:
 				triangleSides = Arrays.asList(new LineSegment(x, y, x+1, y),
 											new LineSegment(x+1, y, x+1, y+1),
 											new LineSegment(x, y, x+1, y+1));
+				triangleVertices = Arrays.asList(new Circle(x, y, 0),
+											new Circle(x+1, y, 0),
+											new Circle(x+1, y+1, 0));
 				break;
 			case 2:
 				triangleSides = Arrays.asList(new LineSegment(x+1, y+1, x+1, y),
 											new LineSegment(x, y+1, x+1, y+1),
 											new LineSegment(x, y+1, x+1, y));
+				triangleVertices = Arrays.asList(new Circle(x, y+1, 0),
+											new Circle(x+1, y, 0),
+											new Circle(x+1, y+1, 0));
 				break;
 			default:
 				triangleSides = Arrays.asList(new LineSegment(x, y, x, y+1),
 											new LineSegment(x, y+1, x+1, y+1),
 											new LineSegment(x, y, x+1, y+1));
+				triangleVertices = Arrays.asList(new Circle(x, y, 0),
+											new Circle(x+1, y+1, 0),
+											new Circle(x, y+1, 0));
 				break;
 		}
 			
@@ -102,6 +132,20 @@ public class TriangularBumper implements Gadget, BoardObject {
 	public int getY() {
 		return yCoord;
 	}
+	
+	/**
+	 * Returns an integer representing the orientation of the bumper
+	 * 
+	 * @return
+	 * 			integer as follows:
+	 * 				0. 0 degrees
+     * 				1. 90 degrees
+     * 				2. 180 degrees
+     * 				3. 270 degrees
+	 */
+	public int getOrientation(){
+		return orientation;
+	}
 
 	@Override
 	public String getID() {
@@ -125,26 +169,58 @@ public class TriangularBumper implements Gadget, BoardObject {
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void trigger(Ball ball) {
-		// TODO Auto-generated method stub
-		
+		action();
+		for (Gadget t : triggers){
+			t.trigger(ball);
+		}
 	}
 
 	@Override
 	public double[] impactCalc(Ball ball) {
-		// TODO Auto-generated method stub
-		return null;
+		double minTimeToEdgeCollision = Double.POSITIVE_INFINITY;
+		LineSegment closestEdge = triangleSides.get(0);
+		
+		for (LineSegment edge : triangleSides){
+			double timeToCollision = Geometry.timeUntilWallCollision(edge, ball.toCircle(), ball.getVel());
+			if (timeToCollision < minTimeToEdgeCollision){
+				minTimeToEdgeCollision = timeToCollision;
+				closestEdge = edge;
+			}
+		}
+		
+		double minTimeToVertexCollision = Double.POSITIVE_INFINITY;
+		Circle closestVertex = triangleVertices.get(0);
+		
+		for (Circle vertex : triangleVertices){
+			double timeToCollision = Geometry.timeUntilCircleCollision(vertex, ball.toCircle(), ball.getVel());
+			if (timeToCollision < minTimeToVertexCollision){
+				minTimeToVertexCollision = timeToCollision;
+				closestVertex = vertex;
+			}
+		}
+		
+		Vect newVel;
+		double minTimeToCollision;
+		
+		if (minTimeToEdgeCollision < minTimeToVertexCollision){
+			newVel = Geometry.reflectWall(closestEdge, ball.getVel(), reflecCoeff);
+			minTimeToCollision = minTimeToEdgeCollision;
+		} else{
+			newVel = Geometry.reflectCircle(closestVertex.getCenter(), ball.getPos(), ball.getVel(), reflecCoeff);
+			minTimeToCollision = minTimeToVertexCollision;
+		}
+		
+		return new double[] {minTimeToCollision, newVel.x(), newVel.y()};
 	}
 
 	@Override
 	public void progress(double timeStep) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 }

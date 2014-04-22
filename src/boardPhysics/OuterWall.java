@@ -8,9 +8,27 @@ import physics.*;
 
 public class OuterWall implements Gadget, BoardObject {
 	
+	/**
+	 * The line segment representing the wall
+	 */
 	private LineSegment wall;
 	
-	private boolean isReflec;
+	/**
+     * What board this wall is connected to
+     */
+	private Board connectedBoard;
+	
+	/**
+     * Which wall of that board it is connected to:
+     * 		"wall 0" = top
+     * 		"wall 1" = right
+     * 		"wall 2" = bottom
+     * 		"wall 3" = left
+     * 
+     * NOTE: if connectedBoard == self, and this.id.equals(connectedWall),
+     * then the wall is reflective and not invisible
+     */
+	private String connectedWall;
 	
 	/**
      * List of gadgets whose triggers are connected to this gadget
@@ -37,9 +55,10 @@ public class OuterWall implements Gadget, BoardObject {
      */
     protected final double reflecCoeff;
 	
-	public OuterWall(String id, LineSegment wall, boolean isReflec){
+	public OuterWall(String id, LineSegment wall, Board connectedBoard, String connectedWall){
 		this.wall = wall;
-		this.isReflec = isReflec;
+		this.connectedBoard = connectedBoard;
+		this.connectedWall = connectedWall;
 		this.id = id; 
 		this.triggers = new ArrayList<Gadget>();
 		this.reflecCoeff = 1.0;
@@ -60,23 +79,37 @@ public class OuterWall implements Gadget, BoardObject {
 	}
 	
 	/**
-	 * Sets the reflectivity property of the wall
+	 * Sets the connectivity property of the wall
 	 * 
-	 * @param isReflec
-	 * 			True if the wall is reflective, false if it is invisible
+	 * @param board
+	 * 			the board to which this wall is to be connected
+	 * @param wall
+	 * 			a string representing which of the walls it is meant to
+	 * 			be connected to
 	 */
-	public void setReflec(boolean isReflec){
-		this.isReflec = isReflec;
+	public void setConnectivity(Board connectedBoard, String connectedWall){
+		this.connectedBoard = connectedBoard;
+		this.connectedWall = connectedWall;
 	}
 	
 	/**
-	 * Determines the reflectivity property of the wall
+	 * Obtains which board it is connected to
 	 * 
 	 * @return
-	 * 			True if the wall is reflective, false if it is invisible
+	 * 			The board to which this edge is connected to
 	 */
-	public boolean isReflec(){
-		return isReflec;
+	public Board getConnectedBoard(){
+		return connectedBoard;
+	}
+	
+	/**
+	 * Obtains the wall of the board this wall is connected to
+	 * 
+	 * @return
+	 * 			string representing the wall of the board this wall is connected to
+	 */
+	public String getConnectedWall(){
+		return connectedWall;
 	}
 
 	@Override
@@ -121,26 +154,27 @@ public class OuterWall implements Gadget, BoardObject {
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void trigger(Ball ball) {
-		// TODO Auto-generated method stub
-		
+		action();
+		for (Gadget t : triggers){
+			t.trigger(ball);
+		}
 	}
 
 	@Override
 	public double[] impactCalc(Ball ball) {
-		// TODO Auto-generated method stub
-		return null;
+		double timeToCollision = Geometry.timeUntilWallCollision(wall, ball.toCircle(), ball.getVel());
+		Vect newVel = Geometry.reflectWall(wall, ball.getVel(), reflecCoeff);
+		return new double[]{timeToCollision, newVel.x(), newVel.y()};
 	}
 
 	@Override
 	public void progress(double timeStep) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 }
