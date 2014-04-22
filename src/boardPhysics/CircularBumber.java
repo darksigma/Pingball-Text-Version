@@ -111,7 +111,7 @@ public class CircularBumber implements Gadget, BoardObject {
 	}
 
 	@Override
-	public void step(double timeStep) {
+	public void progress(double timeStep) {
 		// TODO Auto-generated method stub
 		
 	}

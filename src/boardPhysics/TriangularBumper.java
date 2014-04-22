@@ -136,21 +136,15 @@ public class TriangularBumper implements Gadget, BoardObject {
 	}
 
 	@Override
-	public double secondsUntilImpact(Ball ball) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void step(double timeStep) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Vect recalculateBallVelocity(Ball ball) {
+	public double[] impactCalc(Ball ball) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void progress(double timeStep) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,6 +3,8 @@ package boardPhysics;
 import java.util.Arrays;
 import java.util.List;
 
+import physics.Circle;
+import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
@@ -48,6 +50,8 @@ public class SquareBumper implements Gadget, BoardObject {
      */
     protected final List<LineSegment> squareSides;
     
+    protected final List<Circle> squareVertices;
+    
     public SquareBumper(String id, int x, int y){
 		this.xCoord = x;
 		this.yCoord = y;
@@ -59,6 +63,10 @@ public class SquareBumper implements Gadget, BoardObject {
 										new LineSegment(x+1, y, x+1, y+1),
 										new LineSegment(x+1, y+1, x, y+1),
 										new LineSegment(x, y+1, x, y));
+		this.squareVertices = Arrays.asList(new Circle(x, y, 0),
+											new Circle(x+1, y, 0),
+											new Circle(x, y+1, 0),
+											new Circle(x+1, y+1, 0));
 	}
 	
     @Override
@@ -114,21 +122,26 @@ public class SquareBumper implements Gadget, BoardObject {
 	}
 
 	@Override
-	public double secondsUntilImpact(Ball ball) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void step(double timeStep) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Vect recalculateBallVelocity(Ball ball) {
+	public double[] impactCalc(Ball ball) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void progress(double timeStep) {
+		double minTimeToCollision = Double.POSITIVE_INFINITY;
+		LineSegment closestEdge = absorberEdges.get(0);
+		for (LineSegment edge : absorberEdges){
+			double timeToCollision = Geometry.timeUntilWallCollision(edge, ball.toCircle(), ball.getVel());
+			if (timeToCollision < minTimeToCollision){
+				minTimeToCollision = timeToCollision;
+				closestEdge = edge;
+			}
+		}
+		
+		Vect newVel = Geometry.reflectWall(closestEdge, ball.getVel(), reflecCoeff);
+		
+		return new double[] {minTimeToCollision, newVel.x(), newVel.y()};
 	}
 
 }

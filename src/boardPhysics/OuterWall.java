@@ -132,20 +132,15 @@ public class OuterWall implements Gadget, BoardObject {
 	}
 
 	@Override
-	public double secondsUntilImpact(Ball ball) {
+	public double[] impactCalc(Ball ball) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public void step(double timeStep) {
+	public void progress(double timeStep) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public Vect recalculateBallVelocity(Ball ball) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

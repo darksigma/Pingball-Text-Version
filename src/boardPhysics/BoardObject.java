@@ -4,15 +4,17 @@ import physics.*;
 
 public interface BoardObject {
 	
-	/**
-     * Returns the number of seconds it will take for a ball moving at a constant
-     * velocity to hit this boardObject given its position and orientation
-     * 
-     * @return
-     * 			a double representing the time until another ball collides with this object
-     */
 	
-	public void step(double timeStep);
+	/**
+	 * Progresses an object by a timestep assuming the current position and velocities
+	 * of the object and assuming that *NO* collisions occur between that object and any
+	 * other objects
+	 * 
+	 * @param timeStep
+	 * 			a double representing the time step by which we will progress the state
+	 * 			of the object
+	 */
+	public void progress(double timeStep);
 	
 	
 	/**

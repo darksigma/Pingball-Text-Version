@@ -20,6 +20,13 @@ public class Board {
 	private static final double GRAVITY = 25.0;
 	
 	/**
+	 * A constant providing a buffer zone to prevent abnormalities in the
+	 * action of various items on the board due to rounding errors in calculating
+	 * the time it takes to collide with another object
+	 */
+	private static final double TIME_EPSILON = 0.0001;
+	
+	/**
 	 * This is the maximal coordinate in the x direction
 	 */
 	private final int xDim;
@@ -156,6 +163,13 @@ public class Board {
 	 */
 	public void step(double timeStep){
 		
+		//Base case of the recursive implementation --> end if we've basically reached negligible
+		//amounts of time
+		if(timeStep < TIME_EPSILON){
+			return;
+		}
+		
+		//Modify the velocities of all of the balls according to gravitya and friction
 		for(Ball ball : balls){
 			Vect vOld = ball.getVel();
 			
@@ -165,17 +179,92 @@ public class Board {
 			ball.setVel(vNew);
 		}
 		
+		//With the current velocities and positions determine the time for the next ball-ball
+		//collision as well as the balls that actually collide
 		double minTimeUntilBallBallCollision = Double.POSITIVE_INFINITY;
-		Ball[] ballBallCollision = new Ball[2];
+		Ball collisionBall1 = balls.get(0);
+		Ball collisionBall2 = balls.get(1);
 		for(int i = 0; i < balls.size() - 1; i++){
 			for(int j = i + 1; j < balls.size(); j++){
 				Ball ball1 = balls.get(i);
 				Ball ball2 = balls.get(j);
-				
+				if(!ball1.getInAbsorber() && !ball2.getInAbsorber()){	
+					double timeUntilCollision = ball1.impactCalc(ball2)[0];
+					if (timeUntilCollision < minTimeUntilBallBallCollision){
+						collisionBall1 = ball1;
+						collisionBall2 = ball2;
+					}
+				}
 			}
 		}
 		
+		//With the current velocities and positions determine the time for the next ball-gadget
+		//collision and determine the objects involved in that collision
+		double minTimeUntilBallGadgetCollision = Double.POSITIVE_INFINITY;
+		Ball collisionBall3 = balls.get(0);
+		Gadget collisionGadget = gadgets.get(0);
+		for(Ball b : balls){
+			if(!b.getInAbsorber()){
+				for(Gadget g : gadgets){
+					double timeUntilCollision = ((BoardObject) g).impactCalc(b)[0];
+					if (timeUntilCollision < minTimeUntilBallGadgetCollision){
+						collisionBall3 = b;
+						collisionGadget = g;
+					}
+				}
+			}
+		}
 		
+		//Trivially progress the board if the next determined collision of any kind doesn't happen
+		//within the time step
+		if(Math.min(minTimeUntilBallBallCollision, minTimeUntilBallGadgetCollision) > timeStep){
+			progress(timeStep - TIME_EPSILON);
+			return;
+		}
+		
+		//If a ball-ball collision happens within the time step, progress the board trivially until
+		//just before the collision, modify the ball velocities accordingly and recursively call the
+		//step function passing the remaining time as the argument for step()
+		if(minTimeUntilBallBallCollision < minTimeUntilBallGadgetCollision){
+			progress(minTimeUntilBallBallCollision - TIME_EPSILON);
+			
+			Vect ball1Vel = new Vect(collisionBall2.impactCalc(collisionBall1)[1], collisionBall2.impactCalc(collisionBall1)[2]);
+			Vect ball2Vel = new Vect(collisionBall1.impactCalc(collisionBall2)[1], collisionBall1.impactCalc(collisionBall2)[2]);
+			
+			collisionBall1.setVel(ball1Vel);
+			collisionBall2.setVel(ball2Vel);
+			
+			step(timeStep - minTimeUntilBallBallCollision);
+			return;
+		}
+		
+		//In the final case, a ball-gadget collision occurs within the time step. In this case we
+		//progress the board trivially until just before the collision, modify the ball velocity
+		//and trigger the gadget. Then recursively call the step function passing the remaining time 
+		//as the argument for step()
+		progress(minTimeUntilBallGadgetCollision - TIME_EPSILON);
+		
+		Vect ball3Vel = new Vect(((BoardObject)collisionGadget).impactCalc(collisionBall3)[1], ((BoardObject)collisionGadget).impactCalc(collisionBall3)[2]);
+		
+		collisionBall3.setVel(ball3Vel);
+		collisionGadget.trigger(collisionBall3);
+		
+		step(timeStep - minTimeUntilBallBallCollision);
+		return;	
+	}
+	
+	/**
+	 * Advances the whole board one step forward by a time step, assuming *NO* collisions
+	 * occur
+	 * 
+	 * @param timeStep
+	 * 			a double the represents the time by which we want to shift the state of the
+	 * 			board, assuming *NO* collisions occur
+	 */
+	public void progress(double timeStep){
+		for (BoardObject b : inhabitants){
+			b.progress(timeStep);
+		}
 	}
 	
 	

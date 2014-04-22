@@ -5,17 +5,6 @@ import physics.*;
 public class Ball implements BoardObject{
 	
 	/**
-	 * A set of constants describing the effects of friction on movement
-	 */
-	private static final double MU_1 = 0.025;
-	private static final double MU_2 = 0.025;
-	
-	/**
-	 * A constant describing the effective force of gravity on the ball
-	 */
-	private static final double GRAVITY = 25.0;
-	
-	/**
 	 * A vector to the center of the ball describing its position
 	 */
 	private Vect pos; 
@@ -167,8 +156,8 @@ public class Ball implements BoardObject{
 	}
 	
 	@Override
-	public void step(double timeStep){
-		// TODO Auto-generated method stub
+	public void progress(double timeStep){
+		pos = pos.plus(vel.times(timeStep));
 	}
 	
 	@Override
