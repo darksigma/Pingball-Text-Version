@@ -65,12 +65,9 @@ public class Board {
 	 * 			The size of the board in the x-dimension
 	 * @param yDim
 	 * 			The size of the board in the y-dimension
-	 * @param wallsReflec
-	 * 			A list of booleans determining whether the walls are reflective or invisible:
-	 * 			Order is: top, right, bottom, left walls (clockwise order)
 	 * @return
 	 */
-	public static Board newBoard(int xDim, int yDim, boolean[] wallsReflec){
+	public static Board newBoard(int xDim, int yDim){
 		Board board = new Board(xDim, yDim);
 		
 		List<LineSegment> walls = Arrays.asList(
@@ -81,10 +78,37 @@ public class Board {
 				); 
 		
 		for(int i = 0; i < 4; i ++){
-			board.addGadgetToBoard(new OuterWall("wall " + i, walls.get(i), wallsReflec[i]));
+			OuterWall wall = new OuterWall("wall " + i, walls.get(i), board, "wall " + i);
+			board.gadgets.add(wall);
+			board.inhabitants.add((BoardObject) wall);
 		}
 				
 		return board;
+	}
+	
+	/**
+	 * Connects a wall in the board to another wall in the board specified
+	 * 
+	 * @param wall
+	 * 			Specifies which wall in this board we want to connect to another
+	 * @param boardToBeConnected
+	 * 			Specifies which other board we want to connect our wall to
+	 * @param wallToBeConnected
+	 * 			Specifies which other wall in the other board we want to connect
+	 * 			our wall to
+	 * @return
+	 * 			true if the connection process was successful and false otherwise
+	 */
+	public boolean connectWall(String wall, Board boardToBeConnected, String wallToBeConnected){
+		for (Gadget g : gadgets){
+			if(g instanceof OuterWall && g.getID().equals(wall)){
+				OuterWall ourWall = (OuterWall) g;
+				ourWall.setConnectivity(boardToBeConnected, wallToBeConnected);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -94,6 +118,10 @@ public class Board {
 	 * 			a gadget to be added to the board
 	 */
 	public void addGadgetToBoard(Gadget gadget){
+		if (gadget instanceof OuterWall){
+			throw new RuntimeException("CANNOT ADD A NEW OUTER WALL TO BOARD");
+		}
+		
 		gadgets.add(gadget);
 		inhabitants.add((BoardObject) gadget);
 	}
@@ -237,8 +265,14 @@ public class Board {
 		
 		Vect ball3Vel = new Vect(((BoardObject)collisionGadget).impactCalc(collisionBall3)[1], ((BoardObject)collisionGadget).impactCalc(collisionBall3)[2]);
 		
-		collisionBall3.setVel(ball3Vel);
+		if(!(collisionGadget instanceof OuterWall) || ((OuterWall)collisionGadget).getConnectedBoard() == this && ((OuterWall)collisionGadget).getConnectedWall().equals(collisionGadget.getID())){
+			collisionBall3.setVel(ball3Vel);
+		} else{
+			//TODO @DANA, this has to do with the client/server ball passing stuff
+		}
+		
 		collisionGadget.trigger(collisionBall3);
+
 		
 		step(timeStep - minTimeUntilBallBallCollision);
 		return;	

@@ -19,7 +19,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
-    	final Board board = Board.newBoard(20,20, new boolean[]{true, true, true, true});
+    	final Board board = Board.newBoard(20,20);
 		final Ball ball1 = new Ball("ball1", 5, 1, 0, 30, 0.5, 1);
 		final Ball ball2 = new Ball("ball2", 4, 15, 10, -10, 0.5, 1);
 		final SquareBumper s1 = new SquareBumper("s1", 5, 7);

@@ -52,7 +52,7 @@ public class BoardTest {
 	 * Create an empty board
 	 */
 	@Test public void createEmptyBoard(){
-		Board board = Board.newBoard(20,20, new boolean[]{true, true, true, true});
+		Board board = Board.newBoard(20,20);
 		System.out.println(board.toString());
 	}
 	
@@ -60,7 +60,7 @@ public class BoardTest {
 	 * Simulate a board with only a single ball
 	 */
 	@Test public void createSingleBallBoard(){
-		final Board board = Board.newBoard(20,20, new boolean[]{true, true, true, true});
+		final Board board = Board.newBoard(20,20);
 		Ball ball1 = new Ball("ball1", 1, 3, 1, 3, 0.5, 1);
 		board.addBallToBoard(ball1);
 		
