@@ -104,16 +104,16 @@ public class Flipper implements Gadget, BoardObject {
 		this.triggers = new ArrayList<Gadget>();
 		if(this.isLeft && this.orientation == 0){
 			this.flipper = new LineSegment(new Vect(x, y), new Vect(x, y+2));
-			this.flipperVertices = Arrays.asList(new Circle(x, y, 0), new Circle(x, y+2, 0));
+			this.flipperVertices = Arrays.asList(new Circle(x, y, 0.01), new Circle(x, y+2, 0.01));
 		}else if(!this.isLeft && this.orientation == 0){
 			this.flipper = new LineSegment(new Vect(x+2, y), new Vect(x+2, y+2));
-			this.flipperVertices = Arrays.asList(new Circle(x+2, y, 0), new Circle(x+2, y+2, 0));
+			this.flipperVertices = Arrays.asList(new Circle(x+2, y, 0.01), new Circle(x+2, y+2, 0.01));
 		} else if(this.isLeft && this.orientation == 1){
 			this.flipper = new LineSegment(new Vect(x, y), new Vect(x+2, y));
-			this.flipperVertices = Arrays.asList(new Circle(x, y, 0), new Circle(x+2, y, 0));
+			this.flipperVertices = Arrays.asList(new Circle(x, y, 0.01), new Circle(x+2, y, 0.01));
 		} else{
 			this.flipper = new LineSegment(new Vect(x+2, y), new Vect(x, y));
-			this.flipperVertices = Arrays.asList(new Circle(x+2, y, 0), new Circle(x, y, 0));
+			this.flipperVertices = Arrays.asList(new Circle(x+2, y, 0.01), new Circle(x, y, 0.01));
 		}
 		this.rotationRate = 1080;
 		this.rotationRateRad = 1080*Math.PI/180;
@@ -164,6 +164,7 @@ public class Flipper implements Gadget, BoardObject {
 		if(isRotating){
 			isRotatingUp = !isRotatingUp;
 		}else{
+			isRotating = true;
 			if(orientation < EPSILON){
 				isRotatingUp = true;
 			}else{
@@ -196,25 +197,25 @@ public class Flipper implements Gadget, BoardObject {
 		if (timeToCompleteRotating < timeStep){
 			if(isRotatingUp & isLeft){
 				flipper = new LineSegment(xCoord, yCoord, xCoord+2, yCoord);
-				flipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0), new Circle(xCoord + 2, yCoord, 0));
+				flipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0.01), new Circle(xCoord + 2, yCoord, 0.01));
 				orientation = 90;
 				isRotating = false;
 				return;
 			} else if(isRotatingUp){
 				flipper = new LineSegment(xCoord + 2, yCoord, xCoord, yCoord);
-				flipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0), new Circle(xCoord + 2, yCoord, 0));
+				flipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0.01), new Circle(xCoord + 2, yCoord, 0.01));
 				orientation = 90;
 				isRotating = false;
 				return;
 			}else if(isLeft){
 				flipper = new LineSegment(xCoord, yCoord, xCoord, yCoord+2);
-				flipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0), new Circle(xCoord, yCoord + 2, 0));
+				flipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0.01), new Circle(xCoord, yCoord + 2, 0.01));
 				isRotating = false;
 				orientation = 0;
 				return;
 			}else{
 				flipper = new LineSegment(xCoord + 2, yCoord, xCoord + 2, yCoord + 2);
-				flipperVertices = Arrays.asList(new Circle(xCoord + 2, yCoord, 0), new Circle(xCoord + 2, yCoord + 2, 0));
+				flipperVertices = Arrays.asList(new Circle(xCoord + 2, yCoord, 0.01), new Circle(xCoord + 2, yCoord + 2, 0.01));
 				isRotating = false;
 				orientation = 0;
 				return;
@@ -239,7 +240,7 @@ public class Flipper implements Gadget, BoardObject {
 		}
 		
 		flipper = Geometry.rotateAround(flipper, flipper.p1(), new Angle(rotateAngle));
-		flipperVertices = Arrays.asList(new Circle(flipper.p1(), 0), new Circle(flipper.p2(), 0));
+		flipperVertices = Arrays.asList(new Circle(flipper.p1(), 0.01), new Circle(flipper.p2(), 0.01));
 		return;
 	}
 
@@ -320,13 +321,13 @@ public class Flipper implements Gadget, BoardObject {
 			List<Circle> newFlipperVertices;
 			if(isRotatingUp){
 				newFlipper = new LineSegment(xCoord, yCoord, xCoord+2, yCoord);
-				newFlipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0), new Circle(xCoord + 2, yCoord, 0));
+				newFlipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0.01), new Circle(xCoord + 2, yCoord, 0.01));
 			}else if(isLeft){
 				newFlipper = new LineSegment(xCoord, yCoord, xCoord, yCoord+2);
-				newFlipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0), new Circle(xCoord, yCoord + 2, 0));
+				newFlipperVertices = Arrays.asList(new Circle(xCoord, yCoord, 0.01), new Circle(xCoord, yCoord + 2, 0.01));
 			}else{
 				newFlipper = new LineSegment(xCoord + 2, yCoord, xCoord + 2, yCoord + 2);
-				newFlipperVertices = Arrays.asList(new Circle(xCoord + 2, yCoord, 0), new Circle(xCoord + 2, yCoord + 2, 0));
+				newFlipperVertices = Arrays.asList(new Circle(xCoord + 2, yCoord, 0.01), new Circle(xCoord + 2, yCoord + 2, 0.01));
 			}
 			
 			minTimeToEdgeCollision = Geometry.timeUntilWallCollision(newFlipper, ball.toCircle(), ball.getVel());

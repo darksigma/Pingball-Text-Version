@@ -8,6 +8,7 @@ import boardPhysics.Absorber;
 import boardPhysics.Ball;
 import boardPhysics.Board;
 import boardPhysics.CircularBumper;
+import boardPhysics.Flipper;
 import boardPhysics.SquareBumper;
 import boardPhysics.TriangularBumper;
 
@@ -26,7 +27,7 @@ public class Main {
 		final Ball ball2 = new Ball("ball2", 4, 15, 10, -10, 0.5, 1);
 		final Ball ball3 = new Ball("ball3", 7, 18, 50, -100, 0.5, 1);
 		final SquareBumper s1 = new SquareBumper("s1", 5, 7);
-		final CircularBumper c1 = new CircularBumper("s1", 8, 19);
+		final CircularBumper c1 = new CircularBumper("s1", 2, 3);
 		final CircularBumper c2 = new CircularBumper("s1", 17, 2);
 		final TriangularBumper t1 = new TriangularBumper("t1", 3, 10, 270);
 		final TriangularBumper t2 = new TriangularBumper("t2", 19, 0, 270);
@@ -43,6 +44,10 @@ public class Main {
 		ab.connect(ab);
 		s1.connect(ab);
 		board.addGadgetToBoard(ab);
+		
+		final Flipper f1 = new Flipper("f1", 10, 8, true, 0);
+		board.addGadgetToBoard(f1);
+		s1.connect(f1);
 		
 		System.out.println(board.toString());
 

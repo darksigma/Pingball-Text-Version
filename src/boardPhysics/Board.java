@@ -278,6 +278,7 @@ public class Board {
 			//TODO @DANA, this has to do with the client/server ball passing stuff
 		}
 		
+	
 		collisionGadget.trigger();
 
 		
@@ -350,6 +351,18 @@ public class Board {
 					for(int j=g.getY(); j < g.getY() + g.getHeight(); j++){
 						boardRep[j + 1][i + 1] = '=';
 					}
+				}
+			}else if(g instanceof Flipper){
+				Flipper f = (Flipper) g;
+				if (f.isLeft && f.orientation == 0){
+					boardRep[f.getY()+1][f.getX()+1] = '|';
+					boardRep[f.getY()+2][f.getX()+1] = '|';
+				} else if(f.orientation == 0){
+					boardRep[f.getY()+1][f.getX()+2] = '|';
+					boardRep[f.getY()+2][f.getX()+2] = '|';
+				} else{
+					boardRep[f.getY()+1][f.getX()+1] = '-';
+					boardRep[f.getY()+1][f.getX()+2] = '-';
 				}
 			}
 		}

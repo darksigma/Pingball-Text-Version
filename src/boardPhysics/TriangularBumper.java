@@ -81,33 +81,33 @@ public class TriangularBumper implements Gadget, BoardObject {
 				triangleSides = Arrays.asList(new LineSegment(x, y+1, x, y),
 											new LineSegment(x, y, x+1, y),
 											new LineSegment(x, y+1, x+1, y));
-				triangleVertices = Arrays.asList(new Circle(x, y, 0),
-												new Circle(x+1, y, 0),
-												new Circle(x, y+1, 0));
+				triangleVertices = Arrays.asList(new Circle(x, y, 0.01),
+												new Circle(x+1, y, 0.01),
+												new Circle(x, y+1, 0.01));
 				break;
 			case 1:
 				triangleSides = Arrays.asList(new LineSegment(x, y, x+1, y),
 											new LineSegment(x+1, y, x+1, y+1),
 											new LineSegment(x, y, x+1, y+1));
-				triangleVertices = Arrays.asList(new Circle(x, y, 0),
-											new Circle(x+1, y, 0),
-											new Circle(x+1, y+1, 0));
+				triangleVertices = Arrays.asList(new Circle(x, y, 0.01),
+											new Circle(x+1, y, 0.01),
+											new Circle(x+1, y+1, 0.01));
 				break;
 			case 2:
 				triangleSides = Arrays.asList(new LineSegment(x+1, y+1, x+1, y),
 											new LineSegment(x, y+1, x+1, y+1),
 											new LineSegment(x, y+1, x+1, y));
-				triangleVertices = Arrays.asList(new Circle(x, y+1, 0),
-											new Circle(x+1, y, 0),
-											new Circle(x+1, y+1, 0));
+				triangleVertices = Arrays.asList(new Circle(x, y+1, 0.01),
+											new Circle(x+1, y, 0.01),
+											new Circle(x+1, y+1, 0.01));
 				break;
 			default:
 				triangleSides = Arrays.asList(new LineSegment(x, y, x, y+1),
 											new LineSegment(x, y+1, x+1, y+1),
 											new LineSegment(x, y, x+1, y+1));
-				triangleVertices = Arrays.asList(new Circle(x, y, 0),
-											new Circle(x+1, y+1, 0),
-											new Circle(x, y+1, 0));
+				triangleVertices = Arrays.asList(new Circle(x, y, 0.01),
+											new Circle(x+1, y+1, 0.01),
+											new Circle(x, y+1, 0.01));
 				break;
 		}
 			

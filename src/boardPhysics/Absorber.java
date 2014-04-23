@@ -90,10 +90,10 @@ public class Absorber implements Gadget, BoardObject {
 								new LineSegment(x+width, y, x+width, y+height),
 								new LineSegment(x+width, y+height, x, y+height),
 								new LineSegment(x, y+height, x, y));
-		this.absorberVertices = Arrays.asList(new Circle(x, y, 0),
-											new Circle(x+width, y, 0),
-											new Circle(x+width, y+height, 0),
-											new Circle(x, y+height, 0));
+		this.absorberVertices = Arrays.asList(new Circle(x, y, 0.01),
+											new Circle(x+width, y, 0.01),
+											new Circle(x+width, y+height, 0.01),
+											new Circle(x, y+height, 0.01));
 		this.isFiring = false;
 		this.heldBalls = new ArrayDeque<Ball>();
 		this.firedBall = null;

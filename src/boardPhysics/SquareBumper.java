@@ -67,10 +67,10 @@ public class SquareBumper implements Gadget, BoardObject {
 										new LineSegment(x+1, y, x+1, y+1),
 										new LineSegment(x+1, y+1, x, y+1),
 										new LineSegment(x, y+1, x, y));
-		this.squareVertices = Arrays.asList(new Circle(x, y, 0),
-											new Circle(x+1, y, 0),
-											new Circle(x, y+1, 0),
-											new Circle(x+1, y+1, 0));
+		this.squareVertices = Arrays.asList(new Circle(x, y, 0.01),
+											new Circle(x+1, y, 0.01),
+											new Circle(x, y+1, 0.01),
+											new Circle(x+1, y+1, 0.01));
 		this.triggers = new ArrayList<Gadget>();
 	}
 	
