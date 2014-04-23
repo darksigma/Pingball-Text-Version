@@ -23,22 +23,25 @@ public class Main {
         
     	final Board board = Board.newBoard(20,20);
 		final Ball ball1 = new Ball("ball1", 5, 1, 0, 30, 0.5, 1);
-//		final Ball ball2 = new Ball("ball2", 4, 15, 10, -10, 0.5, 1);
-//		final Ball ball3 = new Ball("ball3", 7, 18, 50, -100, 0.5, 1);
-//		final SquareBumper s1 = new SquareBumper("s1", 5, 7);
-//		final CircularBumper c1 = new CircularBumper("s1", 8, 19);
-//		final CircularBumper c2 = new CircularBumper("s1", 17, 2);
-//		final TriangularBumper t1 = new TriangularBumper("t1", 3, 10, 270);
+		final Ball ball2 = new Ball("ball2", 4, 15, 10, -10, 0.5, 1);
+		final Ball ball3 = new Ball("ball3", 7, 18, 50, -100, 0.5, 1);
+		final SquareBumper s1 = new SquareBumper("s1", 5, 7);
+		final CircularBumper c1 = new CircularBumper("s1", 8, 19);
+		final CircularBumper c2 = new CircularBumper("s1", 17, 2);
+		final TriangularBumper t1 = new TriangularBumper("t1", 3, 10, 270);
+		final TriangularBumper t2 = new TriangularBumper("t2", 19, 0, 270);
 		board.addBallToBoard(ball1);
-//		board.addBallToBoard(ball2);
-//		board.addBallToBoard(ball3);
-//		board.addGadgetToBoard(s1);
-//		board.addGadgetToBoard(t1);
-//		board.addGadgetToBoard(c1);
-//		board.addGadgetToBoard(c2);
+		board.addBallToBoard(ball2);
+		board.addBallToBoard(ball3);
+		board.addGadgetToBoard(s1);
+		board.addGadgetToBoard(t1);
+		board.addGadgetToBoard(t2);
+		board.addGadgetToBoard(c1);
+		board.addGadgetToBoard(c2);
 		
-		final Absorber ab = new Absorber("ab", 0, 19, 20, 1, new Vect(0, -50));
+		final Absorber ab = new Absorber("ab", 0, 19, 19, 1, new Vect(0, -50));
 		ab.connect(ab);
+		s1.connect(ab);
 		board.addGadgetToBoard(ab);
 		
 		System.out.println(board.toString());
