@@ -124,7 +124,7 @@ public class Flipper implements Gadget, BoardObject {
 	}
 
 	@Override
-	public void trigger(Ball ball) {
+	public void trigger() {
 		// TODO Auto-generated method stub
 		
 	}

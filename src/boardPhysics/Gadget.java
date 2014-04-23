@@ -84,7 +84,7 @@ public interface Gadget {
      * @param ball 
      * 			the ball that hit and triggered this gadget
      */
-    public void trigger(Ball ball);
+    public void trigger();
     
 
 }

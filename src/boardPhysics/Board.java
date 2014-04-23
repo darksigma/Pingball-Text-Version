@@ -172,15 +172,16 @@ public class Board {
 			return;
 		}
 		
-		//Modify the velocities of all of the balls according to gravitya and friction
-		for(Ball ball : balls){
-			Vect vOld = ball.getVel();
-			
-			// Vnew = Vold × ( 1 - mu × delta_t - mu2 × |Vold| × delta_t )
-			Vect vNew = vOld.times(1 - MU_1*timeStep - MU_2*vOld.length()*timeStep);
-			
-			ball.setVel(vNew);
-		}
+//		//Modify the velocities of all of the balls according to gravity and friction
+//		for(Ball ball : balls){
+//			double vY = ball.getVel().y();
+//			double vX = ball.getVel().x();
+//		    double newVY = vY + GRAVITY * timeStep;
+//		    double newVX = vX * (1 - MU_1 * timeStep - MU_2 * Math.abs(vX) * timeStep);
+//		    newVY = newVY * (1 - MU_1 * timeStep - MU_2 * Math.abs(newVY) * timeStep);
+//		    
+//		    ball.setVel(new Vect(newVX, newVY));
+//		}
 		
 		Ball collisionBall1 = null;
 		Ball collisionBall2 = null;
@@ -265,13 +266,19 @@ public class Board {
 		
 		Vect ball3Vel = new Vect(((BoardObject)collisionGadget).impactCalc(collisionBall3)[1], ((BoardObject)collisionGadget).impactCalc(collisionBall3)[2]);
 		
-		if(!(collisionGadget instanceof OuterWall) || ((OuterWall)collisionGadget).getConnectedBoard() == this && ((OuterWall)collisionGadget).getConnectedWall().equals(collisionGadget.getID())){
+		if(collisionGadget instanceof Absorber){
+			collisionBall3.setVel(new Vect(0,0));
+			Vect newPos = new Vect(collisionGadget.getX() + collisionGadget.getWidth() - 0.25, collisionGadget.getY() + collisionGadget.getHeight() - 0.25);
+			collisionBall3.setPos(newPos);
+			collisionBall3.setInAbsorber(true);
+			((Absorber) collisionGadget).addBallToAbsorber(collisionBall3);
+	    } else if(!(collisionGadget instanceof OuterWall) || ((OuterWall)collisionGadget).getConnectedBoard() == this && ((OuterWall)collisionGadget).getConnectedWall().equals(collisionGadget.getID())){
 			collisionBall3.setVel(ball3Vel);
 		} else{
 			//TODO @DANA, this has to do with the client/server ball passing stuff
 		}
 		
-		collisionGadget.trigger(collisionBall3);
+		collisionGadget.trigger();
 
 		
 		step(timeStep - minTimeUntilBallBallCollision);
@@ -287,8 +294,24 @@ public class Board {
 	 * 			board, assuming *NO* collisions occur
 	 */
 	public void progress(double timeStep){
-		for (BoardObject b : inhabitants){
-			b.progress(timeStep);
+		for(Ball b : balls){
+			((BoardObject) b).progress(timeStep);
+		}
+		
+		for (Gadget g : gadgets){
+			((BoardObject) g).progress(timeStep);
+		}
+		
+		for(Ball ball : balls){
+			if(!ball.getInAbsorber()){
+				double vY = ball.getVel().y();
+				double vX = ball.getVel().x();
+			    double newVY = vY + GRAVITY * timeStep;
+			    double newVX = vX * (1 - MU_1 * timeStep - MU_2 * Math.abs(vX) * timeStep);
+			    newVY = newVY * (1 - MU_1 * timeStep - MU_2 * Math.abs(newVY) * timeStep);
+			    
+			    ball.setVel(new Vect(newVX, newVY));
+			}
 		}
 	}
 	
@@ -322,6 +345,12 @@ public class Board {
 					boardRep[g.getY() + 1][g.getX() + 1]= '\\';
 			}else if(g instanceof CircularBumper){
 				boardRep[g.getY() + 1][g.getX() + 1]= 'O';
+			}else if(g instanceof Absorber){
+				for(int i=g.getX(); i < g.getX() + g.getWidth(); i++){
+					for(int j=g.getY(); j < g.getY() + g.getHeight(); j++){
+						boardRep[j + 1][i + 1] = '=';
+					}
+				}
 			}
 		}
 		

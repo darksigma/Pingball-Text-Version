@@ -106,10 +106,10 @@ public class CircularBumper implements Gadget, BoardObject {
 	}
 
 	@Override
-	public void trigger(Ball ball) {
+	public void trigger() {
 		action();
 		for (Gadget t : triggers){
-			t.trigger(ball);
+			t.trigger();
 		}
 	}
 
