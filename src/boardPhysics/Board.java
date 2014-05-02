@@ -326,6 +326,12 @@ public class Board {
 	public String toString(){
 		char[][] boardRep = new char[yDim + 2][xDim + 2];
 		
+		for(int i = 0; i < boardRep.length; i++){
+			for(int j = 0; j < boardRep[i].length; j++){
+				boardRep[i][j] = ' ';
+			}
+		}
+		
 		for(int i = 0; i < yDim + 2; i++){
 			boardRep[i][0] = '.';
 			boardRep[i][xDim + 1] = '.';
